@@ -41,6 +41,7 @@
             this.buttonLoad = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
             this.labelId = new System.Windows.Forms.Label();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.SuspendLayout();
             // 
             // TextBoxLastname
@@ -134,8 +135,16 @@
             this.labelId.AutoSize = true;
             this.labelId.Location = new System.Drawing.Point(67, 117);
             this.labelId.Name = "labelId";
-            this.labelId.Size = new System.Drawing.Size(0, 13);
+            this.labelId.Size = new System.Drawing.Size(10, 13);
             this.labelId.TabIndex = 9;
+            this.labelId.Text = "-";
+            // 
+            // openFileDialog
+            // 
+            this.openFileDialog.FileName = "student0.txt";
+            this.openFileDialog.Filter = "*.txt|*.txt|*.bin|*.bin|*.dat|*.dat";
+            this.openFileDialog.InitialDirectory = "./students";
+            this.openFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog_FileOk);
             // 
             // MainForm
             // 
@@ -165,13 +174,14 @@
         private System.Windows.Forms.Label labelName;
         private System.Windows.Forms.Label labelMidname;
         private System.Windows.Forms.Label labelIdUseless;
-        public System.Windows.Forms.TextBox TextBoxName;
-        public System.Windows.Forms.TextBox TextBoxMidname;
         public System.Windows.Forms.NotifyIcon notifyIconSaved;
         private System.Windows.Forms.Button buttonLoad;
-        public System.Windows.Forms.TextBox TextBoxLastname;
         private System.Windows.Forms.Button buttonSave;
-        public System.Windows.Forms.Label labelId;
+        private System.Windows.Forms.OpenFileDialog openFileDialog;
+        private System.Windows.Forms.TextBox TextBoxName;
+        private System.Windows.Forms.TextBox TextBoxMidname;
+        private System.Windows.Forms.TextBox TextBoxLastname;
+        private System.Windows.Forms.Label labelId;
     }
 }
 

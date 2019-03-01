@@ -12,9 +12,27 @@ namespace WFCat
 {
     public partial class MainForm : Form
     {
+        private Student stud;
+
+        private void Show()
+        {
+            TextBoxLastname.Text = stud.lastname;
+            TextBoxName.Text = stud.name;
+            TextBoxMidname.Text = stud.midname;
+            labelId.Text = stud.id.ToString();
+        }
         public MainForm()
         {
             InitializeComponent();
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            if (!Directory.Exists("./students"))
+                Directory.CreateDirectory("./students");
+            stud = new Student();
+            stud.FirstLoad();
+            Show();
         }
 
         //private void TextBoxLastname_KeyDown(object sender, KeyEventArgs e)
@@ -27,33 +45,32 @@ namespace WFCat
 
         private void ButtonLoad_Click(object sender, EventArgs e)
         {
-            Student stud = new Student();
-            stud.Load();
+            openFileDialog.ShowDialog();
         }
 
         private void ButtonSave_Click(object sender, EventArgs e)
         {
-            Student stud = new Student(TextBoxLastname.Text, TextBoxName.Text, TextBoxMidname.Text);
+            stud = new Student(TextBoxLastname.Text, TextBoxName.Text, TextBoxMidname.Text);
             stud.Save();
+            Show();
         }
-
-        private void MainForm_Load(object sender, EventArgs e)
+        
+        private void openFileDialog_FileOk(object sender, CancelEventArgs e)
         {
-            Directory.CreateDirectory("./students");
-            TextBoxLastname.Text = "Фамилия";
+            stud = new Student();
+            stud.Load(openFileDialog.FileName);
+            Show();
         }
     }
 
-    public class Student
+    public partial class Student
     {
         public Student()
         {
             lastname = "";
             name = "";
             midname = "";
-            id = lastid;
-            lastid++;
-            path = paths + id + ".";
+            id = -1;
         }
         public Student(string lastname, string name, string midname)
         {
@@ -62,49 +79,87 @@ namespace WFCat
             this.midname = midname;
             id = lastid;
             lastid++;
-            path = paths + id + "."; 
         }
         public void Save() // to file
         {
             foreach (string e in ext)
             {
+                do
+                {
+                    id++;
+                    path = paths + (id) + ".";
+                }
+                while (File.Exists(path + e));
                 StreamWriter writer = new StreamWriter(new FileStream(path + e, FileMode.Create, FileAccess.Write));
-                writer.Write("{0}\r\n{1}\r\n{2}", lastname, name, midname);
+                writer.Write("{0}\r\n{1}\r\n{2}\r\n{3}", lastname, name, midname, id);
                 writer.Close();
-                MainForm form = new MainForm();
-                form.notifyIconSaved.ShowBalloonTip(500);
+                Load(path + e);
+                new MainForm().notifyIconSaved.ShowBalloonTip(500);
             }
         }
-        public void Load() // from file
+
+        public void FirstLoad() // from file
         {
+
             int i = 0;
-        start:
-            string e = ext[i];
+
+            /* Если не найдено расширение .txt
+            bool b = true;
+            while (b)
+            {
+                path = paths + id + ".";
+                try
+                {
+                    new FileStream(path + ext[i], FileMode.Open, FileAccess.Read);
+                    b = false;
+                }
+                catch (FileNotFoundException)
+                {
+                    i++;
+                }
+            }
+            */
+
+            path = paths + "0.";
             try
             {
-                FileStream tryfile = new FileStream(path + e, FileMode.Open, FileAccess.Read);
+                new FileStream(path + ext[i], FileMode.Open, FileAccess.Read);
             }
             catch (FileNotFoundException)
             {
-                if (i < ext.Length)
-                {
-                    i++;
-                    goto start;
-                }
-                else /*error*/ ;
+                return;
             }
-            StreamReader reader = new StreamReader(new FileStream(path + e, FileMode.Open, FileAccess.Read));
-            MainForm form = new MainForm();
-            form.TextBoxLastname.Text = "123";
-            form.TextBoxName.Text = reader.ReadLine();
-            form.TextBoxMidname.Text = reader.ReadLine();
+            Load(path + ext[i]);
+        }
+
+        public void Load(string path) // from path (openFileDialog)
+        {
+            StreamReader reader = new StreamReader(new FileStream(path, FileMode.Open, FileAccess.Read));
+            lastname = reader.ReadLine();
+            name = reader.ReadLine();
+            midname = reader.ReadLine();
+            id = int.Parse(reader.ReadLine());
             reader.Close();
         }
+
+        //public int Id
+        //{
+        //    get { return id; }
+        //    set
+        //    {
+        //        if (id < 0)
+        //        {
+        //            id = lastid;
+        //            lastid++;
+        //        }
+        //    }
+        //}
+
+        public int id;
+        static private int lastid = 0;
+        static private readonly string paths = "./students/student";
         public string lastname, name, midname, path;
-        private readonly string paths = "./students/student";
-        private readonly string[] ext = { "txt", "bin", "dat" };
-        public int id = 0;
-        private int lastid = 0;
+        private readonly string[] ext = { "txt"/*, "bin", "dat" */};
     }
 
 }
