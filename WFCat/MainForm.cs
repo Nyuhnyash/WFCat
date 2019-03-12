@@ -13,13 +13,14 @@ namespace WFCat
     public partial class MainForm : Form
     {
         private Student stud;
-
         private void Show()
         {
             TextBoxLastname.Text = stud.lastname;
             TextBoxName.Text = stud.name;
             TextBoxMidname.Text = stud.midname;
-            if (stud.id != -1)
+            if (stud.id == -1)
+                labelId.Text = "-";
+            else
                 labelId.Text = stud.id.ToString();
         }
 
@@ -33,7 +34,7 @@ namespace WFCat
             if (!Directory.Exists("./students"))
                 Directory.CreateDirectory("./students");
             stud = new Student();
-            stud.Load();
+            stud.FirstLoad();
             Show();
         }
 
@@ -46,7 +47,14 @@ namespace WFCat
         {
             stud = new Student(TextBoxLastname.Text, TextBoxName.Text, TextBoxMidname.Text);
             stud.Save();
-            Show(); // <-- убрать
+            stud = new Student(1);
+            if (stud.Load() == 1)
+            {
+                TextBoxLastname.Text = "";
+                TextBoxName.Text = "";
+                TextBoxMidname.Text = "";
+            }
+            Show();
         }
         
         private void openFileDialog_FileOk(object sender, CancelEventArgs e)
@@ -54,6 +62,17 @@ namespace WFCat
             stud = new Student();
             stud.Load(openFileDialog.FileName);
             Show();
+        }
+
+        private void TextBoxLastname_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            //if (e.KeyChar == (char)Keys.Return)
+            //    TextBoxName.SelectNextControl();
+        }
+
+        private void checkBoxRo_CheckedChanged(object sender, EventArgs e)
+        {
+            Student.ro = !Student.ro;
         }
     }
 
@@ -64,6 +83,11 @@ namespace WFCat
             lastname = name = midname = "";
             id = -1;
         }
+        public Student(int i)
+        {
+            lastname = name = midname = "";
+            id = lastid;
+        }
         public Student(string lastname, string name, string midname)
         {
             this.lastname = lastname;
@@ -72,12 +96,15 @@ namespace WFCat
             id = lastid;
             lastid++;
         }
-        public void SaveNew()
-        {
-            while (File.Exists(paths + id + "." + ext[0]));
-            id++;
-        }
-        public void Save() => Save(paths + id + "." + ext[0]); // Save old
+        //public void SaveNew()
+        //{
+        //    while (File.Exists(paths + id + "." + ext[0]));
+        //    id++;
+        //}
+        public void Save()
+        { 
+            Save(paths + id + "." + ext[0]);
+        } // Save old
         public void Save(string path) // to file
         {
                 StreamWriter writer = new StreamWriter(new FileStream(path, FileMode.Create, FileAccess.Write));
@@ -101,7 +128,27 @@ namespace WFCat
                 }
             }
             */
-        public void Load() // Load from file
+
+        public int Load()
+        {
+            path = paths + id + "." + ext[0];
+            if (File.Exists(path))
+            {
+                Load(path);
+                return 0;
+            }
+            else
+                if (ro)
+                {
+                    id = 1;
+                    lastid = 1;
+                    path = paths + 1 + "." + ext[0];
+                    Load(path);
+                    return 0;
+                } else
+                return 1;
+        }
+        public void FirstLoad() // Load from file
         {
 
             int i = 0;
@@ -135,9 +182,10 @@ namespace WFCat
         //        id = lastid;
         //    }
         //}
+        static public bool ro = false;
         public int id;
-        static private int lastid = 1;
-        static private readonly string paths = "./students/student";
+        static int lastid = 1;
+        static readonly string paths = "students/student";
         public string lastname, name, midname, path;
         private readonly string[] ext = { "txt"/*, "bin", "dat" */};
     }

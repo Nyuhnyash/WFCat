@@ -42,6 +42,8 @@
             this.buttonNext = new System.Windows.Forms.Button();
             this.labelId = new System.Windows.Forms.Label();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.buttonPrev = new System.Windows.Forms.Button();
+            this.checkBoxRo = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // TextBoxLastname
@@ -50,6 +52,7 @@
             this.TextBoxLastname.Name = "TextBoxLastname";
             this.TextBoxLastname.Size = new System.Drawing.Size(100, 20);
             this.TextBoxLastname.TabIndex = 0;
+            this.TextBoxLastname.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxLastname_KeyPress);
             // 
             // TextBoxName
             // 
@@ -112,11 +115,11 @@
             // 
             // buttonLoad
             // 
-            this.buttonLoad.Location = new System.Drawing.Point(12, 227);
+            this.buttonLoad.Location = new System.Drawing.Point(104, 227);
             this.buttonLoad.Name = "buttonLoad";
             this.buttonLoad.Size = new System.Drawing.Size(75, 23);
             this.buttonLoad.TabIndex = 7;
-            this.buttonLoad.Text = "Load";
+            this.buttonLoad.Text = "♥";
             this.buttonLoad.UseVisualStyleBackColor = true;
             this.buttonLoad.Click += new System.EventHandler(this.ButtonLoad_Click);
             // 
@@ -126,7 +129,7 @@
             this.buttonNext.Name = "buttonNext";
             this.buttonNext.Size = new System.Drawing.Size(75, 23);
             this.buttonNext.TabIndex = 8;
-            this.buttonNext.Text = "Next";
+            this.buttonNext.Text = "Вперед";
             this.buttonNext.UseVisualStyleBackColor = true;
             this.buttonNext.Click += new System.EventHandler(this.ButtonNext_Click);
             // 
@@ -146,11 +149,33 @@
             this.openFileDialog.InitialDirectory = "./students";
             this.openFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog_FileOk);
             // 
+            // buttonPrev
+            // 
+            this.buttonPrev.Location = new System.Drawing.Point(12, 227);
+            this.buttonPrev.Name = "buttonPrev";
+            this.buttonPrev.Size = new System.Drawing.Size(75, 23);
+            this.buttonPrev.TabIndex = 10;
+            this.buttonPrev.Text = "Назад";
+            this.buttonPrev.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxRo
+            // 
+            this.checkBoxRo.AutoSize = true;
+            this.checkBoxRo.Location = new System.Drawing.Point(191, 39);
+            this.checkBoxRo.Name = "checkBoxRo";
+            this.checkBoxRo.Size = new System.Drawing.Size(73, 17);
+            this.checkBoxRo.TabIndex = 11;
+            this.checkBoxRo.Text = "ReadOnly";
+            this.checkBoxRo.UseVisualStyleBackColor = true;
+            this.checkBoxRo.CheckedChanged += new System.EventHandler(this.checkBoxRo_CheckedChanged);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 262);
+            this.Controls.Add(this.checkBoxRo);
+            this.Controls.Add(this.buttonPrev);
             this.Controls.Add(this.labelId);
             this.Controls.Add(this.buttonNext);
             this.Controls.Add(this.buttonLoad);
@@ -182,6 +207,8 @@
         private System.Windows.Forms.TextBox TextBoxMidname;
         private System.Windows.Forms.TextBox TextBoxLastname;
         private System.Windows.Forms.Label labelId;
+        private System.Windows.Forms.Button buttonPrev;
+        private System.Windows.Forms.CheckBox checkBoxRo;
     }
 }
 
