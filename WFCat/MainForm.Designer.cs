@@ -39,28 +39,28 @@
             this.labelIdUseless = new System.Windows.Forms.Label();
             this.notifyIconSaved = new System.Windows.Forms.NotifyIcon(this.components);
             this.buttonLoad = new System.Windows.Forms.Button();
-            this.buttonSave = new System.Windows.Forms.Button();
+            this.buttonNext = new System.Windows.Forms.Button();
             this.labelId = new System.Windows.Forms.Label();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.SuspendLayout();
             // 
             // TextBoxLastname
             // 
-            this.TextBoxLastname.Location = new System.Drawing.Point(70, 36);
+            this.TextBoxLastname.Location = new System.Drawing.Point(70, 62);
             this.TextBoxLastname.Name = "TextBoxLastname";
             this.TextBoxLastname.Size = new System.Drawing.Size(100, 20);
             this.TextBoxLastname.TabIndex = 0;
             // 
             // TextBoxName
             // 
-            this.TextBoxName.Location = new System.Drawing.Point(70, 62);
+            this.TextBoxName.Location = new System.Drawing.Point(70, 88);
             this.TextBoxName.Name = "TextBoxName";
             this.TextBoxName.Size = new System.Drawing.Size(100, 20);
             this.TextBoxName.TabIndex = 1;
             // 
             // TextBoxMidname
             // 
-            this.TextBoxMidname.Location = new System.Drawing.Point(70, 88);
+            this.TextBoxMidname.Location = new System.Drawing.Point(70, 114);
             this.TextBoxMidname.Name = "TextBoxMidname";
             this.TextBoxMidname.Size = new System.Drawing.Size(100, 20);
             this.TextBoxMidname.TabIndex = 2;
@@ -68,7 +68,7 @@
             // labelLastname
             // 
             this.labelLastname.AutoSize = true;
-            this.labelLastname.Location = new System.Drawing.Point(12, 39);
+            this.labelLastname.Location = new System.Drawing.Point(12, 65);
             this.labelLastname.Name = "labelLastname";
             this.labelLastname.Size = new System.Drawing.Size(53, 17);
             this.labelLastname.TabIndex = 3;
@@ -78,7 +78,7 @@
             // labelName
             // 
             this.labelName.AutoSize = true;
-            this.labelName.Location = new System.Drawing.Point(12, 65);
+            this.labelName.Location = new System.Drawing.Point(12, 91);
             this.labelName.Name = "labelName";
             this.labelName.Size = new System.Drawing.Size(29, 13);
             this.labelName.TabIndex = 4;
@@ -87,7 +87,7 @@
             // labelMidname
             // 
             this.labelMidname.AutoSize = true;
-            this.labelMidname.Location = new System.Drawing.Point(12, 91);
+            this.labelMidname.Location = new System.Drawing.Point(12, 117);
             this.labelMidname.Name = "labelMidname";
             this.labelMidname.Size = new System.Drawing.Size(54, 13);
             this.labelMidname.TabIndex = 5;
@@ -96,7 +96,7 @@
             // labelIdUseless
             // 
             this.labelIdUseless.AutoSize = true;
-            this.labelIdUseless.Location = new System.Drawing.Point(12, 117);
+            this.labelIdUseless.Location = new System.Drawing.Point(12, 39);
             this.labelIdUseless.Name = "labelIdUseless";
             this.labelIdUseless.Size = new System.Drawing.Size(18, 13);
             this.labelIdUseless.TabIndex = 6;
@@ -120,20 +120,20 @@
             this.buttonLoad.UseVisualStyleBackColor = true;
             this.buttonLoad.Click += new System.EventHandler(this.ButtonLoad_Click);
             // 
-            // buttonSave
+            // buttonNext
             // 
-            this.buttonSave.Location = new System.Drawing.Point(197, 227);
-            this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(75, 23);
-            this.buttonSave.TabIndex = 8;
-            this.buttonSave.Text = "Save";
-            this.buttonSave.UseVisualStyleBackColor = true;
-            this.buttonSave.Click += new System.EventHandler(this.ButtonSave_Click);
+            this.buttonNext.Location = new System.Drawing.Point(197, 227);
+            this.buttonNext.Name = "buttonNext";
+            this.buttonNext.Size = new System.Drawing.Size(75, 23);
+            this.buttonNext.TabIndex = 8;
+            this.buttonNext.Text = "Next";
+            this.buttonNext.UseVisualStyleBackColor = true;
+            this.buttonNext.Click += new System.EventHandler(this.ButtonNext_Click);
             // 
             // labelId
             // 
             this.labelId.AutoSize = true;
-            this.labelId.Location = new System.Drawing.Point(67, 117);
+            this.labelId.Location = new System.Drawing.Point(67, 39);
             this.labelId.Name = "labelId";
             this.labelId.Size = new System.Drawing.Size(10, 13);
             this.labelId.TabIndex = 9;
@@ -152,7 +152,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 262);
             this.Controls.Add(this.labelId);
-            this.Controls.Add(this.buttonSave);
+            this.Controls.Add(this.buttonNext);
             this.Controls.Add(this.buttonLoad);
             this.Controls.Add(this.labelIdUseless);
             this.Controls.Add(this.labelMidname);
@@ -176,7 +176,7 @@
         private System.Windows.Forms.Label labelIdUseless;
         public System.Windows.Forms.NotifyIcon notifyIconSaved;
         private System.Windows.Forms.Button buttonLoad;
-        private System.Windows.Forms.Button buttonSave;
+        private System.Windows.Forms.Button buttonNext;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.TextBox TextBoxName;
         private System.Windows.Forms.TextBox TextBoxMidname;

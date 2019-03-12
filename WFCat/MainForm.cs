@@ -19,8 +19,10 @@ namespace WFCat
             TextBoxLastname.Text = stud.lastname;
             TextBoxName.Text = stud.name;
             TextBoxMidname.Text = stud.midname;
-            labelId.Text = stud.id.ToString();
+            if (stud.id != -1)
+                labelId.Text = stud.id.ToString();
         }
+
         public MainForm()
         {
             InitializeComponent();
@@ -31,28 +33,20 @@ namespace WFCat
             if (!Directory.Exists("./students"))
                 Directory.CreateDirectory("./students");
             stud = new Student();
-            stud.FirstLoad();
+            stud.Load();
             Show();
         }
-
-        //private void TextBoxLastname_KeyDown(object sender, KeyEventArgs e)
-        //{
-        //    Student stud;
-        //    if (e.KeyCode == Keys.Enter)
-        //    {
-        //    }
-        //}
 
         private void ButtonLoad_Click(object sender, EventArgs e)
         {
             openFileDialog.ShowDialog();
         }
 
-        private void ButtonSave_Click(object sender, EventArgs e)
+        private void ButtonNext_Click(object sender, EventArgs e)
         {
             stud = new Student(TextBoxLastname.Text, TextBoxName.Text, TextBoxMidname.Text);
             stud.Save();
-            Show();
+            Show(); // <-- убрать
         }
         
         private void openFileDialog_FileOk(object sender, CancelEventArgs e)
@@ -67,9 +61,7 @@ namespace WFCat
     {
         public Student()
         {
-            lastname = "";
-            name = "";
-            midname = "";
+            lastname = name = midname = "";
             id = -1;
         }
         public Student(string lastname, string name, string midname)
@@ -80,30 +72,20 @@ namespace WFCat
             id = lastid;
             lastid++;
         }
-        public void Save() // to file
+        public void SaveNew()
         {
-            foreach (string e in ext)
-            {
-                do
-                {
-                    id++;
-                    path = paths + (id) + ".";
-                }
-                while (File.Exists(path + e));
-                StreamWriter writer = new StreamWriter(new FileStream(path + e, FileMode.Create, FileAccess.Write));
+            while (File.Exists(paths + id + "." + ext[0]));
+            id++;
+        }
+        public void Save() => Save(paths + id + "." + ext[0]); // Save old
+        public void Save(string path) // to file
+        {
+                StreamWriter writer = new StreamWriter(new FileStream(path, FileMode.Create, FileAccess.Write));
                 writer.Write("{0}\r\n{1}\r\n{2}\r\n{3}", lastname, name, midname, id);
                 writer.Close();
-                Load(path + e);
                 new MainForm().notifyIconSaved.ShowBalloonTip(500);
-            }
         }
-
-        public void FirstLoad() // from file
-        {
-
-            int i = 0;
-
-            /* Если не найдено расширение .txt
+        /* Если не найдено расширение .txt
             bool b = true;
             while (b)
             {
@@ -119,11 +101,14 @@ namespace WFCat
                 }
             }
             */
+        public void Load() // Load from file
+        {
 
-            path = paths + "0.";
+            int i = 0;
+            path = paths + "1.";
             try
             {
-                new FileStream(path + ext[i], FileMode.Open, FileAccess.Read);
+                new FileStream(path + ext[i], FileMode.Open, FileAccess.Read).Close();
             }
             catch (FileNotFoundException)
             {
@@ -142,21 +127,16 @@ namespace WFCat
             reader.Close();
         }
 
-        //public int Id
+        //public int id
         //{
-        //    get { return id; }
+        //    get => id;
         //    set
         //    {
-        //        if (id < 0)
-        //        {
-        //            id = lastid;
-        //            lastid++;
-        //        }
+        //        id = lastid;
         //    }
         //}
-
         public int id;
-        static private int lastid = 0;
+        static private int lastid = 1;
         static private readonly string paths = "./students/student";
         public string lastname, name, midname, path;
         private readonly string[] ext = { "txt"/*, "bin", "dat" */};
