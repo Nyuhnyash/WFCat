@@ -21,3 +21,12 @@ C:\Users\stud\Documents\WFCat\WFCat\bin\Debug\WFCat.pdb
 C:\Users\stud\Documents\WFCat\WFCat\obj\x86\Debug\WFCat.MainForm.resources
 C:\Users\stud\Documents\WFCat\WFCat\obj\x86\Debug\WFCat.Properties.Resources.resources
 C:\Users\stud\Documents\WFCat\WFCat\obj\x86\Debug\WFCat.csproj.GenerateResource.Cache
+C:\Users\User\Downloads\WFCat-master\WFCat-master\WFCat\bin\Debug\WFCat.exe
+C:\Users\User\Downloads\WFCat-master\WFCat-master\WFCat\bin\Debug\WFCat.pdb
+C:\Users\User\Downloads\WFCat-master\WFCat-master\WFCat\obj\x86\Debug\WFCat.csprojResolveAssemblyReference.cache
+C:\Users\User\Downloads\WFCat-master\WFCat-master\WFCat\obj\x86\Debug\WFCat.MainForm.resources
+C:\Users\User\Downloads\WFCat-master\WFCat-master\WFCat\obj\x86\Debug\WFCat.Properties.Resources.resources
+C:\Users\User\Downloads\WFCat-master\WFCat-master\WFCat\obj\x86\Debug\WFCat.csproj.GenerateResource.Cache
+C:\Users\User\Downloads\WFCat-master\WFCat-master\WFCat\obj\x86\Debug\WFCat.csproj.CoreCompileInputs.cache
+C:\Users\User\Downloads\WFCat-master\WFCat-master\WFCat\obj\x86\Debug\WFCat.exe
+C:\Users\User\Downloads\WFCat-master\WFCat-master\WFCat\obj\x86\Debug\WFCat.pdb

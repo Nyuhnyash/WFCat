@@ -47,7 +47,7 @@ namespace WFCat
         {
             stud = new Student(TextBoxLastname.Text, TextBoxName.Text, TextBoxMidname.Text);
             stud.Save();
-            stud = new Student(1);
+            stud = new Student();
             if (stud.Load() == 1)
             {
                 TextBoxLastname.Text = "";
@@ -81,12 +81,8 @@ namespace WFCat
         public Student()
         {
             lastname = name = midname = "";
-            id = -1;
-        }
-        public Student(int i)
-        {
-            lastname = name = midname = "";
             id = lastid;
+            path = paths + id + "." + ext[0];
         }
         public Student(string lastname, string name, string midname)
         {
@@ -95,6 +91,7 @@ namespace WFCat
             this.midname = midname;
             id = lastid;
             lastid++;
+            path = paths + id + "." + ext[0];
         }
         //public void SaveNew()
         //{
@@ -103,14 +100,14 @@ namespace WFCat
         //}
         public void Save()
         { 
-            Save(paths + id + "." + ext[0]);
+            Save(path);
         } // Save old
         public void Save(string path) // to file
         {
-                StreamWriter writer = new StreamWriter(new FileStream(path, FileMode.Create, FileAccess.Write));
-                writer.Write("{0}\r\n{1}\r\n{2}\r\n{3}", lastname, name, midname, id);
-                writer.Close();
-                new MainForm().notifyIconSaved.ShowBalloonTip(500);
+            StreamWriter writer = new StreamWriter(new FileStream(path, FileMode.Create, FileAccess.Write));
+            writer.Write("{0}\r\n{1}\r\n{2}\r\n{3}", lastname, name, midname, id);
+            writer.Close();
+            //new MainForm().notifyIconSaved.ShowBalloonTip(500);
         }
         /* Если не найдено расширение .txt
             bool b = true;
@@ -128,10 +125,8 @@ namespace WFCat
                 }
             }
             */
-
         public int Load()
         {
-            path = paths + id + "." + ext[0];
             if (File.Exists(path))
             {
                 Load(path);
@@ -150,30 +145,52 @@ namespace WFCat
         }
         public void FirstLoad() // Load from file
         {
-
             int i = 0;
-            path = paths + "1.";
-            try
-            {
-                new FileStream(path + ext[i], FileMode.Open, FileAccess.Read).Close();
-            }
-            catch (FileNotFoundException)
-            {
+            if (!File.Exists(path))
                 return;
-            }
-            Load(path + ext[i]);
+            Load(path);
         }
 
         public void Load(string path) // from path (openFileDialog)
         {
-            StreamReader reader = new StreamReader(new FileStream(path, FileMode.Open, FileAccess.Read));
+            FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
+            switch (path.Substring(path.Length - 3).ToLower())
+            {
+                case "txt":
+                    LoadTXT(fs);
+                    break;
+                case "bin":
+                    LoadBIN(fs);
+
+                    break;
+                case "byte":
+                    LoadBYTE(fs);
+                    break;
+            }
+            fs.Close();
+        }
+        public void LoadTXT(FileStream fs)
+        {
+            StreamReader reader = new StreamReader(fs);
             lastname = reader.ReadLine();
             name = reader.ReadLine();
             midname = reader.ReadLine();
             id = int.Parse(reader.ReadLine());
             reader.Close();
         }
+        public void LoadBIN(FileStream fs)
+        {
+            BinaryReader reader = new BinaryReader(fs);
+            lastname = reader.ReadString();
+            name = reader.ReadString();
+            midname = reader.ReadString();
+            id = reader.ReadInt32();
+            reader.Close();
+        }
+        public void LoadBYTE(FileStream fs)
+        {
 
+        }
         //public int id
         //{
         //    get => id;
