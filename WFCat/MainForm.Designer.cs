@@ -38,12 +38,23 @@
             this.labelMidname = new System.Windows.Forms.Label();
             this.labelIdUseless = new System.Windows.Forms.Label();
             this.notifyIconSaved = new System.Windows.Forms.NotifyIcon(this.components);
-            this.buttonLoad = new System.Windows.Forms.Button();
             this.buttonNext = new System.Windows.Forms.Button();
             this.labelId = new System.Windows.Forms.Label();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.buttonPrev = new System.Windows.Forms.Button();
-            this.checkBoxRo = new System.Windows.Forms.CheckBox();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.studentBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.открытьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.найстройкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.автосохранениеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.толькоДляЧтенияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.studentBindingSource)).BeginInit();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // TextBoxLastname
@@ -52,6 +63,7 @@
             this.TextBoxLastname.Name = "TextBoxLastname";
             this.TextBoxLastname.Size = new System.Drawing.Size(100, 20);
             this.TextBoxLastname.TabIndex = 0;
+            this.TextBoxLastname.TextChanged += new System.EventHandler(this.TextBoxNames_TextChanged);
             this.TextBoxLastname.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxLastname_KeyPress);
             // 
             // TextBoxName
@@ -60,6 +72,8 @@
             this.TextBoxName.Name = "TextBoxName";
             this.TextBoxName.Size = new System.Drawing.Size(100, 20);
             this.TextBoxName.TabIndex = 1;
+            this.TextBoxName.TextChanged += new System.EventHandler(this.TextBoxNames_TextChanged);
+            this.TextBoxName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxName_KeyPress);
             // 
             // TextBoxMidname
             // 
@@ -67,6 +81,8 @@
             this.TextBoxMidname.Name = "TextBoxMidname";
             this.TextBoxMidname.Size = new System.Drawing.Size(100, 20);
             this.TextBoxMidname.TabIndex = 2;
+            this.TextBoxMidname.TextChanged += new System.EventHandler(this.TextBoxNames_TextChanged);
+            this.TextBoxMidname.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxMidname_KeyPress);
             // 
             // labelLastname
             // 
@@ -113,22 +129,12 @@
             this.notifyIconSaved.Text = "WFCat";
             this.notifyIconSaved.Visible = true;
             // 
-            // buttonLoad
-            // 
-            this.buttonLoad.Location = new System.Drawing.Point(104, 227);
-            this.buttonLoad.Name = "buttonLoad";
-            this.buttonLoad.Size = new System.Drawing.Size(75, 23);
-            this.buttonLoad.TabIndex = 7;
-            this.buttonLoad.Text = "♥";
-            this.buttonLoad.UseVisualStyleBackColor = true;
-            this.buttonLoad.Click += new System.EventHandler(this.ButtonLoad_Click);
-            // 
             // buttonNext
             // 
-            this.buttonNext.Location = new System.Drawing.Point(197, 227);
+            this.buttonNext.Location = new System.Drawing.Point(197, 289);
             this.buttonNext.Name = "buttonNext";
             this.buttonNext.Size = new System.Drawing.Size(75, 23);
-            this.buttonNext.TabIndex = 8;
+            this.buttonNext.TabIndex = 4;
             this.buttonNext.Text = "Вперед";
             this.buttonNext.UseVisualStyleBackColor = true;
             this.buttonNext.Click += new System.EventHandler(this.ButtonNext_Click);
@@ -151,34 +157,107 @@
             // 
             // buttonPrev
             // 
-            this.buttonPrev.Location = new System.Drawing.Point(12, 227);
+            this.buttonPrev.Enabled = false;
+            this.buttonPrev.Location = new System.Drawing.Point(12, 289);
             this.buttonPrev.Name = "buttonPrev";
             this.buttonPrev.Size = new System.Drawing.Size(75, 23);
-            this.buttonPrev.TabIndex = 10;
+            this.buttonPrev.TabIndex = 3;
             this.buttonPrev.Text = "Назад";
             this.buttonPrev.UseVisualStyleBackColor = true;
+            this.buttonPrev.Click += new System.EventHandler(this.ButtonPrev_Click);
             // 
-            // checkBoxRo
+            // dataGridView1
             // 
-            this.checkBoxRo.AutoSize = true;
-            this.checkBoxRo.Location = new System.Drawing.Point(191, 39);
-            this.checkBoxRo.Name = "checkBoxRo";
-            this.checkBoxRo.Size = new System.Drawing.Size(73, 17);
-            this.checkBoxRo.TabIndex = 11;
-            this.checkBoxRo.Text = "ReadOnly";
-            this.checkBoxRo.UseVisualStyleBackColor = true;
-            this.checkBoxRo.CheckedChanged += new System.EventHandler(this.checkBoxRo_CheckedChanged);
+            this.dataGridView1.AllowUserToResizeColumns = false;
+            this.dataGridView1.AllowUserToResizeRows = false;
+            this.dataGridView1.AutoGenerateColumns = false;
+            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column1,
+            this.Column2});
+            this.dataGridView1.DataSource = this.studentBindingSource;
+            this.dataGridView1.Location = new System.Drawing.Point(15, 140);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowHeadersVisible = false;
+            this.dataGridView1.Size = new System.Drawing.Size(257, 143);
+            this.dataGridView1.TabIndex = 11;
+            // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "Предмет";
+            this.Column1.Name = "Column1";
+            // 
+            // Column2
+            // 
+            this.Column2.FillWeight = 30F;
+            this.Column2.HeaderText = "Оценка";
+            this.Column2.Name = "Column2";
+            // 
+            // studentBindingSource
+            // 
+            this.studentBindingSource.DataSource = typeof(WFCat.Student);
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.файлToolStripMenuItem,
+            this.найстройкиToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(284, 24);
+            this.menuStrip1.TabIndex = 12;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // файлToolStripMenuItem
+            // 
+            this.файлToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.открытьToolStripMenuItem});
+            this.файлToolStripMenuItem.Name = "файлToolStripMenuItem";
+            this.файлToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
+            this.файлToolStripMenuItem.Text = "Файл";
+            // 
+            // открытьToolStripMenuItem
+            // 
+            this.открытьToolStripMenuItem.Name = "открытьToolStripMenuItem";
+            this.открытьToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
+            this.открытьToolStripMenuItem.Text = "Открыть";
+            this.открытьToolStripMenuItem.Click += new System.EventHandler(this.ОткрытьToolStripMenuItem_Click);
+            // 
+            // найстройкиToolStripMenuItem
+            // 
+            this.найстройкиToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.автосохранениеToolStripMenuItem,
+            this.толькоДляЧтенияToolStripMenuItem});
+            this.найстройкиToolStripMenuItem.Name = "найстройкиToolStripMenuItem";
+            this.найстройкиToolStripMenuItem.Size = new System.Drawing.Size(79, 20);
+            this.найстройкиToolStripMenuItem.Text = "Настройки";
+            // 
+            // автосохранениеToolStripMenuItem
+            // 
+            this.автосохранениеToolStripMenuItem.CheckOnClick = true;
+            this.автосохранениеToolStripMenuItem.Name = "автосохранениеToolStripMenuItem";
+            this.автосохранениеToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.автосохранениеToolStripMenuItem.Text = "Автосохранение";
+            this.автосохранениеToolStripMenuItem.Click += new System.EventHandler(this.АвтосохранениеToolStripMenuItem_Click);
+            // 
+            // толькоДляЧтенияToolStripMenuItem
+            // 
+            this.толькоДляЧтенияToolStripMenuItem.CheckOnClick = true;
+            this.толькоДляЧтенияToolStripMenuItem.Name = "толькоДляЧтенияToolStripMenuItem";
+            this.толькоДляЧтенияToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.толькоДляЧтенияToolStripMenuItem.Text = "Только для чтения";
+            this.толькоДляЧтенияToolStripMenuItem.Click += new System.EventHandler(this.ТолькоДляЧтенияToolStripMenuItem_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 262);
-            this.Controls.Add(this.checkBoxRo);
+            this.ClientSize = new System.Drawing.Size(284, 324);
+            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.buttonPrev);
             this.Controls.Add(this.labelId);
             this.Controls.Add(this.buttonNext);
-            this.Controls.Add(this.buttonLoad);
             this.Controls.Add(this.labelIdUseless);
             this.Controls.Add(this.labelMidname);
             this.Controls.Add(this.labelName);
@@ -186,9 +265,15 @@
             this.Controls.Add(this.TextBoxMidname);
             this.Controls.Add(this.TextBoxName);
             this.Controls.Add(this.TextBoxLastname);
+            this.Controls.Add(this.menuStrip1);
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
             this.Text = "Профиль";
             this.Load += new System.EventHandler(this.MainForm_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.studentBindingSource)).EndInit();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -200,7 +285,6 @@
         private System.Windows.Forms.Label labelMidname;
         private System.Windows.Forms.Label labelIdUseless;
         public System.Windows.Forms.NotifyIcon notifyIconSaved;
-        private System.Windows.Forms.Button buttonLoad;
         private System.Windows.Forms.Button buttonNext;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.TextBox TextBoxName;
@@ -208,7 +292,16 @@
         private System.Windows.Forms.TextBox TextBoxLastname;
         private System.Windows.Forms.Label labelId;
         private System.Windows.Forms.Button buttonPrev;
-        private System.Windows.Forms.CheckBox checkBoxRo;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.BindingSource studentBindingSource;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem файлToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem открытьToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem найстройкиToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem толькоДляЧтенияToolStripMenuItem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private System.Windows.Forms.ToolStripMenuItem автосохранениеToolStripMenuItem;
     }
 }
 

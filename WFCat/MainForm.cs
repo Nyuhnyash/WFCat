@@ -23,57 +23,106 @@ namespace WFCat
             else
                 labelId.Text = stud.id.ToString();
         }
-
         public MainForm()
         {
             InitializeComponent();
         }
-
         private void MainForm_Load(object sender, EventArgs e)
         {
-            if (!Directory.Exists("./students"))
-                Directory.CreateDirectory("./students");
+            if (!Directory.Exists("students"))
+                Directory.CreateDirectory("students");
             stud = new Student();
-            stud.FirstLoad();
+            stud.Load();
             Show();
-        }
-
-        private void ButtonLoad_Click(object sender, EventArgs e)
-        {
-            openFileDialog.ShowDialog();
         }
 
         private void ButtonNext_Click(object sender, EventArgs e)
         {
             stud = new Student(TextBoxLastname.Text, TextBoxName.Text, TextBoxMidname.Text);
             stud.Save();
-            stud = new Student();
-            if (stud.Load() == 1)
+            //notifyIconSaved.ShowBalloonTip(500);
+            buttonPrev.Enabled = true;
+            if (Student.ro)
             {
-                TextBoxLastname.Text = "";
-                TextBoxName.Text = "";
-                TextBoxMidname.Text = "";
+                Student.lastid += 2;
+                stud = new Student();
+                if (!stud.FileExists())
+                {
+                    buttonNext.Enabled = false;
+                }
+                Student.lastid--;
             }
+            else
+                Student.lastid++;
+            stud = new Student();
+            stud.Load();
             Show();
         }
-        
+        private void ButtonPrev_Click(object sender, EventArgs e)
+        {
+            stud = new Student(TextBoxLastname.Text, TextBoxName.Text, TextBoxMidname.Text);
+            buttonNext.Enabled = true;
+            buttonPrev.Enabled = --Student.lastid == 1 ? false : true;
+            stud.Save();
+            //notifyIconSaved.ShowBalloonTip(500);
+            stud = new Student();
+            stud.Load();
+            Show();
+        }
+
         private void openFileDialog_FileOk(object sender, CancelEventArgs e)
         {
             stud = new Student();
             stud.Load(openFileDialog.FileName);
             Show();
         }
+        private void ОткрытьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            openFileDialog.ShowDialog();
+        }
+
+        private void ТолькоДляЧтенияToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Student.ro = !Student.ro;
+            TextBoxLastname.ReadOnly = TextBoxName.ReadOnly = TextBoxMidname.ReadOnly = Student.ro;
+            Student.lastid++;
+            stud = new Student();
+            if (Student.ro)
+                buttonNext.Enabled = stud.FileExists() ? true : false;
+            else
+                buttonNext.Enabled = true;
+            Student.lastid--;
+        }
+        private void АвтосохранениеToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Student.aus = !Student.aus;
+        }
 
         private void TextBoxLastname_KeyPress(object sender, KeyPressEventArgs e)
         {
-            //if (e.KeyChar == (char)Keys.Return)
-            //    TextBoxName.SelectNextControl();
+            if (e.KeyChar == (char)Keys.Return)
+                TextBoxName.Select();
+        }
+        private void TextBoxName_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Return)
+                TextBoxMidname.Select();
+        }
+        private void TextBoxMidname_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Return)
+                buttonNext.Select();
         }
 
-        private void checkBoxRo_CheckedChanged(object sender, EventArgs e)
+        private void TextBoxNames_TextChanged(object sender, EventArgs e)
         {
-            Student.ro = !Student.ro;
+            if (Student.aus)
+            {
+                stud = new Student(TextBoxLastname.Text, TextBoxName.Text, TextBoxMidname.Text);
+                stud.Save();
+            }
         }
+
     }
 
     public partial class Student
@@ -90,121 +139,71 @@ namespace WFCat
             this.name = name;
             this.midname = midname;
             id = lastid;
-            lastid++;
             path = paths + id + "." + ext[0];
         }
-        //public void SaveNew()
-        //{
-        //    while (File.Exists(paths + id + "." + ext[0]));
-        //    id++;
-        //}
-        public void Save()
-        { 
-            Save(path);
-        } // Save old
-        public void Save(string path) // to file
+        public void Save() // to file
         {
-            StreamWriter writer = new StreamWriter(new FileStream(path, FileMode.Create, FileAccess.Write));
-            writer.Write("{0}\r\n{1}\r\n{2}\r\n{3}", lastname, name, midname, id);
+            FileStream fs = new FileStream(path, FileMode.Create, FileAccess.Write);
+            StreamWriter writer = new StreamWriter(fs);
+            foreach (string s in TSA())
+                writer.WriteLine(s);
             writer.Close();
-            //new MainForm().notifyIconSaved.ShowBalloonTip(500);
+            //BinaryWriter bwriter = new BinaryWriter(fs);
+            //foreach (string s in TSA())
+            //    bwriter.Write(s);
+            //bwriter.Close();
+
         }
-        /* Если не найдено расширение .txt
-            bool b = true;
-            while (b)
-            {
-                path = paths + id + ".";
-                try
-                {
-                    new FileStream(path + ext[i], FileMode.Open, FileAccess.Read);
-                    b = false;
-                }
-                catch (FileNotFoundException)
-                {
-                    i++;
-                }
-            }
-            */
-        public int Load()
+        public bool FileExists()
         {
-            if (File.Exists(path))
-            {
-                Load(path);
-                return 0;
-            }
-            else
-                if (ro)
-                {
-                    id = 1;
-                    lastid = 1;
-                    path = paths + 1 + "." + ext[0];
-                    Load(path);
-                    return 0;
-                } else
-                return 1;
+            return File.Exists(path) ? true : false;
         }
-        public void FirstLoad() // Load from file
+        public void Load()
         {
-            int i = 0;
-            if (!File.Exists(path))
-                return;
             Load(path);
         }
-
-        public void Load(string path) // from path (openFileDialog)
+        public void Load(string path)
         {
             FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
+            string[] sa = new string[4];
             switch (path.Substring(path.Length - 3).ToLower())
             {
                 case "txt":
-                    LoadTXT(fs);
+                    StreamReader sreader = new StreamReader(fs);
+                    for (int i = 0; i < saLength; i++)
+                        sa[i] = sreader.ReadLine();
+                    FSA(sa);
+                    sreader.Close();
                     break;
                 case "bin":
-                    LoadBIN(fs);
-
+                    BinaryReader breader = new BinaryReader(fs);
+                    for (int i = 0; i < saLength; i++)
+                        sa[i] = breader.ReadString();
+                    FSA(sa);
+                    breader.Close();
                     break;
                 case "byte":
-                    LoadBYTE(fs);
                     break;
             }
             fs.Close();
         }
-        public void LoadTXT(FileStream fs)
+        string[] TSA()
         {
-            StreamReader reader = new StreamReader(fs);
-            lastname = reader.ReadLine();
-            name = reader.ReadLine();
-            midname = reader.ReadLine();
-            id = int.Parse(reader.ReadLine());
-            reader.Close();
+            return new string[saLength] { lastname, name, midname, id.ToString() };
         }
-        public void LoadBIN(FileStream fs)
+        void FSA(string[] sa)
         {
-            BinaryReader reader = new BinaryReader(fs);
-            lastname = reader.ReadString();
-            name = reader.ReadString();
-            midname = reader.ReadString();
-            id = reader.ReadInt32();
-            reader.Close();
+            lastname = sa[0];
+            name = sa[1];
+            midname = sa[2];
+            id = int.Parse(sa[3]);
         }
-        public void LoadBYTE(FileStream fs)
-        {
-
-        }
-        //public int id
-        //{
-        //    get => id;
-        //    set
-        //    {
-        //        id = lastid;
-        //    }
-        //}
-        static public bool ro = false;
+        const int saLength = 4;
+        public static bool ro = false, aus = false;
         public int id;
-        static int lastid = 1;
+        public static int lastid = 1;
         static readonly string paths = "students/student";
         public string lastname, name, midname, path;
-        private readonly string[] ext = { "txt"/*, "bin", "dat" */};
+        readonly string[] ext = { "txt", "bin", "dat"};
     }
-
 }
