@@ -148,11 +148,22 @@ namespace WFCat
             foreach (string s in TSA())
                 writer.WriteLine(s);
             writer.Close();
-            //BinaryWriter bwriter = new BinaryWriter(fs);
-            //foreach (string s in TSA())
-            //    bwriter.Write(s);
-            //bwriter.Close();
+            fs.Close();
 
+            path = paths + id + "." + ext[1];
+            fs = new FileStream(path, FileMode.Create, FileAccess.Write);
+            BinaryWriter bwriter = new BinaryWriter(fs);
+            foreach (string s in TSA())
+                bwriter.Write(s);
+            bwriter.Close();
+            path = paths + id + "." + ext[2];
+            fs = new FileStream(path, FileMode.Create, FileAccess.Write);
+            fs.Seek(5, SeekOrigin.Begin);
+            fs.Write(Encoding.ASCII.GetBytes("String1"), 0, "String1".Length);
+            fs.Seek(45, SeekOrigin.Begin);
+            fs.Write(Encoding.ASCII.GetBytes("String2"), 0, "String2".Length);
+            fs.Seek(78, SeekOrigin.Begin);
+            fs.Write(Encoding.ASCII.GetBytes("String3"), 0, "String3".Length);
         }
         public bool FileExists()
         {
@@ -160,7 +171,8 @@ namespace WFCat
         }
         public void Load()
         {
-            Load(path);
+            if (FileExists()) 
+                Load(path);
         }
         public void Load(string path)
         {
