@@ -95,7 +95,7 @@ namespace WFCat
         }
         private void АвтосохранениеToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Student.aus = !Student.aus;
+            Student.auto = !Student.auto;
         }
 
         private void TextBoxLastname_KeyPress(object sender, KeyPressEventArgs e)
@@ -116,7 +116,7 @@ namespace WFCat
 
         private void TextBoxNames_TextChanged(object sender, EventArgs e)
         {
-            if (Student.aus)
+            if (Student.auto)
             {
                 stud = new Student(TextBoxLastname.Text, TextBoxName.Text, TextBoxMidname.Text);
                 stud.Save();
@@ -145,25 +145,22 @@ namespace WFCat
         {
             FileStream fs = new FileStream(path, FileMode.Create, FileAccess.Write);
             StreamWriter writer = new StreamWriter(fs);
-            foreach (string s in TSA())
-                writer.WriteLine(s);
+            for (int i = 0; i < saLength; i++)
+                writer.WriteLine(this[i]);
             writer.Close();
             fs.Close();
 
-            path = paths + id + "." + ext[1];
-            fs = new FileStream(path, FileMode.Create, FileAccess.Write);
+            fs = new FileStream(paths + id + "." + ext[1], FileMode.Create, FileAccess.Write);
             BinaryWriter bwriter = new BinaryWriter(fs);
-            foreach (string s in TSA())
-                bwriter.Write(s);
+            for (int i = 0; i < saLength; i++)
+                bwriter.Write(this[i]);
             bwriter.Close();
-            path = paths + id + "." + ext[2];
-            fs = new FileStream(path, FileMode.Create, FileAccess.Write);
-            fs.Seek(5, SeekOrigin.Begin);
-            fs.Write(Encoding.ASCII.GetBytes("String1"), 0, "String1".Length);
-            fs.Seek(45, SeekOrigin.Begin);
-            fs.Write(Encoding.ASCII.GetBytes("String2"), 0, "String2".Length);
-            fs.Seek(78, SeekOrigin.Begin);
-            fs.Write(Encoding.ASCII.GetBytes("String3"), 0, "String3".Length);
+            fs.Close();
+
+            fs = new FileStream(paths + id + "." + ext[2], FileMode.Create, FileAccess.Write);
+            for (int i = 0; i < saLength; i++)
+                fs.Write(Encoding.Unicode.GetBytes(this[i]), 0, this[i].Length);
+            fs.Close();
         }
         public bool FileExists()
         {
@@ -177,45 +174,51 @@ namespace WFCat
         public void Load(string path)
         {
             FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
-            string[] sa = new string[4];
+            
             switch (path.Substring(path.Length - 3).ToLower())
             {
                 case "txt":
                     StreamReader sreader = new StreamReader(fs);
                     for (int i = 0; i < saLength; i++)
-                        sa[i] = sreader.ReadLine();
-                    FSA(sa);
+                        this[i] = sreader.ReadLine();
                     sreader.Close();
                     break;
                 case "bin":
                     BinaryReader breader = new BinaryReader(fs);
                     for (int i = 0; i < saLength; i++)
-                        sa[i] = breader.ReadString();
-                    FSA(sa);
+                        this[i] = breader.ReadString();
                     breader.Close();
                     break;
-                case "byte":
+                case "dat":
                     break;
             }
             fs.Close();
         }
-        string[] TSA()
+
+        public string this[int i]
         {
-            return new string[saLength] { lastname, name, midname, id.ToString() };
+            get
+            {
+                return new string[saLength] { lastname, name, midname, id.ToString() }[i];
+            }
+            set
+            {
+                switch (i)
+                {
+                    case 0: lastname = value; break;
+                    case 1: name = value; break;
+                    case 2: midname = value; break;
+                    case 3: id = int.Parse(value); break;
+                }
+            }
         }
-        void FSA(string[] sa)
-        {
-            lastname = sa[0];
-            name = sa[1];
-            midname = sa[2];
-            id = int.Parse(sa[3]);
-        }
+
         const int saLength = 4;
-        public static bool ro = false, aus = false;
+        public static bool ro = false, auto = false;
         public int id;
         public static int lastid = 1;
-        static readonly string paths = "students/student";
         public string lastname, name, midname, path;
-        readonly string[] ext = { "txt", "bin", "dat"};
+        static readonly string paths = "students/student";
+        static readonly string[] ext = { "txt", "bin", "dat"};
     }
 }
