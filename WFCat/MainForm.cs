@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
+using System.Diagnostics;
 
 namespace WFCat
 {
@@ -57,6 +58,7 @@ namespace WFCat
             stud = new Student();
             stud.Load();
             Show();
+            TextBoxLastname.Select();
         }
         private void ButtonPrev_Click(object sender, EventArgs e)
         {
@@ -68,6 +70,7 @@ namespace WFCat
             stud = new Student();
             stud.Load();
             Show();
+            TextBoxLastname.Select();
         }
 
         private void openFileDialog_FileOk(object sender, CancelEventArgs e)
@@ -80,7 +83,10 @@ namespace WFCat
         {
             openFileDialog.ShowDialog();
         }
-
+        private void ОткрытьПапкуToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Process.Start("students");
+        }
         private void ТолькоДляЧтенияToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Student.ro = !Student.ro;
@@ -98,20 +104,12 @@ namespace WFCat
             Student.auto = !Student.auto;
         }
 
-        private void TextBoxLastname_KeyPress(object sender, KeyPressEventArgs e)
+        private void EnterToTab(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Return)
-                TextBoxName.Select();
-        }
-        private void TextBoxName_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == (char)Keys.Return)
-                TextBoxMidname.Select();
-        }
-        private void TextBoxMidname_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == (char)Keys.Return)
-                buttonNext.Select();
+            {
+                ((Control)sender).Parent.SelectNextControl(ActiveControl, true, true, true, true);
+            }
         }
 
         private void TextBoxNames_TextChanged(object sender, EventArgs e)
@@ -122,7 +120,6 @@ namespace WFCat
                 stud.Save();
             }
         }
-
     }
 
     public partial class Student
