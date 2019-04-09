@@ -39,7 +39,7 @@ namespace WFCat
 
         private void ButtonNext_Click(object sender, EventArgs e)
         {
-            stud = new Student(TextBoxLastname.Text, TextBoxName.Text, TextBoxMidname.Text);
+            stud = new Student(TextBoxLastname.Text, TextBoxName.Text, TextBoxMidname.Text,domainUpDown.Text,comboBoxFac.Text,numericUpDown.Text);
             stud.Save();
             //notifyIconSaved.ShowBalloonTip(500);
             buttonPrev.Enabled = true;
@@ -62,7 +62,7 @@ namespace WFCat
         }
         private void ButtonPrev_Click(object sender, EventArgs e)
         {
-            stud = new Student(TextBoxLastname.Text, TextBoxName.Text, TextBoxMidname.Text);
+            stud = new Student(TextBoxLastname.Text, TextBoxName.Text, TextBoxMidname.Text, domainUpDown.Text, comboBoxFac.Text, numericUpDown.Text);
             buttonNext.Enabled = true;
             buttonPrev.Enabled = --Student.lastid == 1 ? false : true;
             stud.Save();
@@ -116,7 +116,7 @@ namespace WFCat
         {
             if (Student.auto)
             {
-                stud = new Student(TextBoxLastname.Text, TextBoxName.Text, TextBoxMidname.Text);
+                stud = new Student(TextBoxLastname.Text, TextBoxName.Text, TextBoxMidname.Text, domainUpDown.Text, comboBoxFac.Text, numericUpDown.Text);
                 stud.Save();
             }
         }
@@ -130,11 +130,14 @@ namespace WFCat
             id = lastid;
             path = paths + id + "." + ext[0];
         }
-        public Student(string lastname, string name, string midname)
+        public Student(string lastname, string name, string midname, string year, string fac, string group)
         {
             this.lastname = lastname;
             this.name = name;
             this.midname = midname;
+            this.year = year;
+            this.fac = fac;
+            this.group = int.Parse(group);
             id = lastid;
             path = paths + id + "." + ext[0];
         }
@@ -196,7 +199,10 @@ namespace WFCat
         {
             get
             {
-                return new string[saLength] { lastname, name, midname, id.ToString() }[i];
+                List<string> l = new List<string> { lastname, name, midname, id.ToString(), year.ToString(),
+                fac, group.ToString(),  /*subjects.Length.ToString()*/};
+                //l.AddRange(subjects);
+                return l[i];
             }
             set
             {
@@ -206,15 +212,19 @@ namespace WFCat
                     case 1: name = value; break;
                     case 2: midname = value; break;
                     case 3: id = int.Parse(value); break;
+                    case 4: year = value; break;
+                    case 5: fac = value; break;
+                    case 6: group = int.Parse(value); break;
                 }
             }
         }
 
-        const int saLength = 4;
+        const int saLength = 7;
         public static bool ro = false, auto = false;
-        public int id;
+        public int id, group;
         public static int lastid = 1;
-        public string lastname, name, midname, path;
+        public string lastname, name, midname, path, year, fac;
+        public string[] subjects;
         static readonly string paths = "students/student";
         static readonly string[] ext = { "txt", "bin", "dat"};
     }

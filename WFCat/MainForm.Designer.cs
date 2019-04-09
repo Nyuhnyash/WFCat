@@ -251,14 +251,14 @@
             // открытьToolStripMenuItem
             // 
             this.открытьToolStripMenuItem.Name = "открытьToolStripMenuItem";
-            this.открытьToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.открытьToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
             this.открытьToolStripMenuItem.Text = "Открыть";
             this.открытьToolStripMenuItem.Click += new System.EventHandler(this.ОткрытьToolStripMenuItem_Click);
             // 
             // открытьПапкуToolStripMenuItem
             // 
             this.открытьПапкуToolStripMenuItem.Name = "открытьПапкуToolStripMenuItem";
-            this.открытьПапкуToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.открытьПапкуToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
             this.открытьПапкуToolStripMenuItem.Text = "Открыть папку";
             this.открытьПапкуToolStripMenuItem.Click += new System.EventHandler(this.ОткрытьПапкуToolStripMenuItem_Click);
             // 
