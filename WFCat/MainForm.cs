@@ -39,7 +39,8 @@ namespace WFCat
 
         private void ButtonNext_Click(object sender, EventArgs e)
         {
-            stud = new Student(TextBoxLastname.Text, TextBoxName.Text, TextBoxMidname.Text,domainUpDown.Text,comboBoxFac.Text,numericUpDown.Text);
+            //new Student(
+            stud = new Student(TextBoxLastname.Text, TextBoxName.Text, TextBoxMidname.Text, domainUpDown.Text, comboBoxFac.Text, numericUpDown.Text, dataGridView1);
             stud.Save();
             //notifyIconSaved.ShowBalloonTip(500);
             buttonPrev.Enabled = true;
@@ -62,7 +63,7 @@ namespace WFCat
         }
         private void ButtonPrev_Click(object sender, EventArgs e)
         {
-            stud = new Student(TextBoxLastname.Text, TextBoxName.Text, TextBoxMidname.Text, domainUpDown.Text, comboBoxFac.Text, numericUpDown.Text);
+            stud = new Student(TextBoxLastname.Text, TextBoxName.Text, TextBoxMidname.Text, domainUpDown.Text, comboBoxFac.Text, numericUpDown.Text, dataGridView1);
             buttonNext.Enabled = true;
             buttonPrev.Enabled = --Student.lastid == 1 ? false : true;
             stud.Save();
@@ -118,7 +119,7 @@ namespace WFCat
         {
             if (Student.auto)
             {
-                stud = new Student(TextBoxLastname.Text, TextBoxName.Text, TextBoxMidname.Text, domainUpDown.Text, comboBoxFac.Text, numericUpDown.Text);
+                stud = new Student(TextBoxLastname.Text, TextBoxName.Text, TextBoxMidname.Text, domainUpDown.Text, comboBoxFac.Text, numericUpDown.Text, dataGridView1);
                 stud.Save();
             }
         }
@@ -132,7 +133,7 @@ namespace WFCat
             id = lastid;
             path = paths + id + "." + ext[0];
         }
-        public Student(string lastname, string name, string midname, string year, string fac, string group)
+        public Student(string lastname, string name, string midname, string year, string fac, string group, DataGridView dgv)
         {
             this.lastname = lastname;
             this.name = name;
@@ -140,6 +141,31 @@ namespace WFCat
             this.year = year;
             this.fac = fac;
             this.group = int.Parse(group);
+            for (int i = 0; i < 20; i++)
+            {
+                try
+                {
+                    dgv[0, i+1].Value.ToString();
+                    subjects[i] = dgv[0, i].Value.ToString();
+                }
+                catch
+                {
+                    i = 20;
+                }
+            }
+            for (int i = 0; i < 20; i++)
+            {
+                try
+                {
+                    dgv[0, i+1].Value.ToString();
+                    marks[i] = int.Parse(dgv[1, i].Value.ToString());
+                }
+                catch
+                {
+                    i = 20;
+                }
+                
+            }
             id = lastid;
             path = paths + id + "." + ext[0];
         }
@@ -197,13 +223,19 @@ namespace WFCat
             fs.Close();
         }
 
+        public void Search()
+        {
+
+        }
+
         public string this[int i]
         {
             get
             {
                 List<string> l = new List<string> { lastname, name, midname, id.ToString(), year.ToString(),
-                fac, group.ToString(),  /*subjects.Length.ToString()*/};
-                //l.AddRange(subjects);
+                fac, group.ToString()};
+                l.AddRange(subjects);
+                l.AddRange(marks.Select(x => x.ToString()));
                 return l[i];
             }
             set
@@ -217,16 +249,25 @@ namespace WFCat
                     case 4: year = value; break;
                     case 5: fac = value; break;
                     case 6: group = int.Parse(value); break;
+                    default:
+                        if (i < 27)
+                            subjects[i - 7] = value;
+                        else
+                            marks[i - 27] = int.Parse(value);
+                        break;
+                    //case var n when (n < 27): break;
+                    //case var n when ((n >= 27) && (n < 47)): break;
                 }
             }
         }
 
-        const int saLength = 7;
+        const int saLength = 47;
         public static bool ro = false, auto = false;
         public int id, group;
         public static int lastid = 1;
         public string lastname, name, midname, path, year, fac;
-        public string[] subjects;
+        public string[] subjects = new string[20];
+        public int[] marks = new int[20];
         static readonly string paths = "students/student";
         static readonly string[] ext = { "txt", "bin", "dat"};
     }

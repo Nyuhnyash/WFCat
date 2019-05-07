@@ -52,11 +52,11 @@
             this.найстройкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.автосохранениеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.толькоДляЧтенияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripTextBoxSearch = new System.Windows.Forms.ToolStripTextBox();
             this.comboBoxFac = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.numericUpDown = new System.Windows.Forms.NumericUpDown();
             this.domainUpDown = new System.Windows.Forms.DomainUpDown();
+            this.найтиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown)).BeginInit();
@@ -224,10 +224,10 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.файлToolStripMenuItem,
             this.найстройкиToolStripMenuItem,
-            this.toolStripTextBoxSearch});
+            this.найтиToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(284, 27);
+            this.menuStrip1.Size = new System.Drawing.Size(284, 24);
             this.menuStrip1.TabIndex = 12;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -237,7 +237,7 @@
             this.открытьToolStripMenuItem,
             this.открытьПапкуToolStripMenuItem});
             this.файлToolStripMenuItem.Name = "файлToolStripMenuItem";
-            this.файлToolStripMenuItem.Size = new System.Drawing.Size(48, 23);
+            this.файлToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.файлToolStripMenuItem.Text = "Файл";
             // 
             // открытьToolStripMenuItem
@@ -260,7 +260,7 @@
             this.автосохранениеToolStripMenuItem,
             this.толькоДляЧтенияToolStripMenuItem});
             this.найстройкиToolStripMenuItem.Name = "найстройкиToolStripMenuItem";
-            this.найстройкиToolStripMenuItem.Size = new System.Drawing.Size(79, 23);
+            this.найстройкиToolStripMenuItem.Size = new System.Drawing.Size(79, 20);
             this.найстройкиToolStripMenuItem.Text = "Настройки";
             // 
             // автосохранениеToolStripMenuItem
@@ -278,11 +278,6 @@
             this.толькоДляЧтенияToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.толькоДляЧтенияToolStripMenuItem.Text = "Только для чтения";
             this.толькоДляЧтенияToolStripMenuItem.Click += new System.EventHandler(this.ТолькоДляЧтенияToolStripMenuItem_Click);
-            // 
-            // toolStripTextBoxSearch
-            // 
-            this.toolStripTextBoxSearch.Name = "toolStripTextBoxSearch";
-            this.toolStripTextBoxSearch.Size = new System.Drawing.Size(100, 23);
             // 
             // comboBoxFac
             // 
@@ -346,6 +341,12 @@
             this.domainUpDown.TabIndex = 3;
             this.domainUpDown.Text = "Ⅰ";
             // 
+            // найтиToolStripMenuItem
+            // 
+            this.найтиToolStripMenuItem.Name = "найтиToolStripMenuItem";
+            this.найтиToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
+            this.найтиToolStripMenuItem.Text = "Найти";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -405,11 +406,11 @@
         private System.Windows.Forms.DataGridViewComboBoxColumn Column1;
         private System.Windows.Forms.DataGridViewComboBoxColumn Column2;
         private System.Windows.Forms.ToolStripMenuItem открытьПапкуToolStripMenuItem;
-        private System.Windows.Forms.ToolStripTextBox toolStripTextBoxSearch;
         private System.Windows.Forms.ComboBox comboBoxFac;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.NumericUpDown numericUpDown;
         private System.Windows.Forms.DomainUpDown domainUpDown;
+        private System.Windows.Forms.ToolStripMenuItem найтиToolStripMenuItem;
     }
 }
 
