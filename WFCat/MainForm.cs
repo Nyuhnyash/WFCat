@@ -90,7 +90,9 @@ namespace WFCat
         private void ТолькоДляЧтенияToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Student.ro = !Student.ro;
-            TextBoxLastname.ReadOnly = TextBoxName.ReadOnly = TextBoxMidname.ReadOnly = Student.ro;
+            TextBoxLastname.ReadOnly = TextBoxName.ReadOnly = TextBoxMidname.ReadOnly = numericUpDown.ReadOnly
+            = domainUpDown.ReadOnly = dataGridView1.ReadOnly = Student.ro;
+            comboBoxFac.Enabled = !Student.ro;
             Student.lastid++;
             stud = new Student();
             if (Student.ro)
