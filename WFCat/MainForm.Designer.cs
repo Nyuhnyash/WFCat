@@ -52,11 +52,11 @@
             this.найстройкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.автосохранениеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.толькоДляЧтенияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.найтиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.comboBoxFac = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.numericUpDown = new System.Windows.Forms.NumericUpDown();
             this.domainUpDown = new System.Windows.Forms.DomainUpDown();
-            this.найтиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown)).BeginInit();
@@ -279,6 +279,13 @@
             this.толькоДляЧтенияToolStripMenuItem.Text = "Только для чтения";
             this.толькоДляЧтенияToolStripMenuItem.Click += new System.EventHandler(this.ТолькоДляЧтенияToolStripMenuItem_Click);
             // 
+            // найтиToolStripMenuItem
+            // 
+            this.найтиToolStripMenuItem.Name = "найтиToolStripMenuItem";
+            this.найтиToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
+            this.найтиToolStripMenuItem.Text = "Найти";
+            this.найтиToolStripMenuItem.Click += new System.EventHandler(this.НайтиToolStripMenuItem_Click);
+            // 
             // comboBoxFac
             // 
             this.comboBoxFac.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
@@ -340,12 +347,6 @@
             this.domainUpDown.Size = new System.Drawing.Size(33, 20);
             this.domainUpDown.TabIndex = 3;
             this.domainUpDown.Text = "Ⅰ";
-            // 
-            // найтиToolStripMenuItem
-            // 
-            this.найтиToolStripMenuItem.Name = "найтиToolStripMenuItem";
-            this.найтиToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
-            this.найтиToolStripMenuItem.Text = "Найти";
             // 
             // MainForm
             // 

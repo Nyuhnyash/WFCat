@@ -19,6 +19,9 @@ namespace WFCat
             TextBoxLastname.Text = stud.lastname;
             TextBoxName.Text = stud.name;
             TextBoxMidname.Text = stud.midname;
+            domainUpDown.Text = stud.year;
+            comboBoxFac.Text = stud.fac;
+            numericUpDown.Value = stud.group;
             if (stud.id == -1)
                 labelId.Text = "-";
             else
@@ -39,10 +42,8 @@ namespace WFCat
 
         private void ButtonNext_Click(object sender, EventArgs e)
         {
-            //new Student(
             stud = new Student(TextBoxLastname.Text, TextBoxName.Text, TextBoxMidname.Text, domainUpDown.Text, comboBoxFac.Text, numericUpDown.Text, dataGridView1);
             stud.Save();
-            //notifyIconSaved.ShowBalloonTip(500);
             buttonPrev.Enabled = true;
             if (Student.ro)
             {
@@ -67,7 +68,6 @@ namespace WFCat
             buttonNext.Enabled = true;
             buttonPrev.Enabled = --Student.lastid == 1 ? false : true;
             stud.Save();
-            //notifyIconSaved.ShowBalloonTip(500);
             stud = new Student();
             stud.Load();
             Show();
@@ -123,6 +123,12 @@ namespace WFCat
                 stud.Save();
             }
         }
+
+        private void НайтиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Process.Start("search-ms://query=содержимое: &crumb=location:" +
+            Directory.GetCurrentDirectory() + "\\students&inputlocale=1049&keywordlocale=1049");
+        }
     }
 
     public partial class Student
@@ -130,8 +136,13 @@ namespace WFCat
         public Student()
         {
             lastname = name = midname = "";
+            group = 1;
             id = lastid;
             path = paths + id + "." + ext[0];
+            for (int i = 0; i < subjects.Length; i++)
+            {
+                subjects[i] = " ";
+            }
         }
         public Student(string lastname, string name, string midname, string year, string fac, string group, DataGridView dgv)
         {
@@ -141,11 +152,14 @@ namespace WFCat
             this.year = year;
             this.fac = fac;
             this.group = int.Parse(group);
+            for (int i = 0; i < subjects.Length; i++)
+            {
+                subjects[i] = " ";
+            }
             for (int i = 0; i < 20; i++)
             {
                 try
                 {
-                    dgv[0, i+1].Value.ToString();
                     subjects[i] = dgv[0, i].Value.ToString();
                 }
                 catch
@@ -157,7 +171,6 @@ namespace WFCat
             {
                 try
                 {
-                    dgv[0, i+1].Value.ToString();
                     marks[i] = int.Parse(dgv[1, i].Value.ToString());
                 }
                 catch
@@ -223,11 +236,6 @@ namespace WFCat
             fs.Close();
         }
 
-        public void Search()
-        {
-
-        }
-
         public string this[int i]
         {
             get
@@ -251,12 +259,10 @@ namespace WFCat
                     case 6: group = int.Parse(value); break;
                     default:
                         if (i < 27)
-                            subjects[i - 7] = value;
+                            subjects[i - 7] = value == default ? " " : value;
                         else
-                            marks[i - 27] = int.Parse(value);
+                            marks[i - 27] = value == default ? 0 : int.Parse(value);
                         break;
-                    //case var n when (n < 27): break;
-                    //case var n when ((n >= 27) && (n < 47)): break;
                 }
             }
         }
