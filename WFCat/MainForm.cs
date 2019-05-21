@@ -42,36 +42,42 @@ namespace WFCat
 
         private void ButtonNext_Click(object sender, EventArgs e)
         {
-            stud = new Student(TextBoxLastname.Text, TextBoxName.Text, TextBoxMidname.Text, domainUpDown.Text, comboBoxFac.Text, numericUpDown.Text, dataGridView1);
-            stud.Save();
-            buttonPrev.Enabled = true;
-            if (Student.ro)
-            {
-                Student.lastid += 2;
-                stud = new Student();
-                if (!stud.FileExists())
-                {
-                    buttonNext.Enabled = false;
-                }
-                Student.lastid--;
-            }
+            if (TextBoxLastname.Text == "" || TextBoxName.Text == "")
+                notifyIconSaved.ShowBalloonTip(5000);
             else
-                Student.lastid++;
-            stud = new Student();
-            stud.Load();
-            Show();
-            TextBoxLastname.Select();
+            {
+                stud = new Student(TextBoxLastname.Text, TextBoxName.Text, TextBoxMidname.Text, domainUpDown.Text, comboBoxFac.Text, numericUpDown.Text, dataGridView1);
+                stud.Save();
+                buttonPrev.Enabled = true;
+                if (Student.ro)
+                {
+                    Student.lastid += 2;
+                    stud = new Student();
+                    if (!stud.FileExists())
+                    {
+                        buttonNext.Enabled = false;
+                    }
+                    Student.lastid--;
+                }
+                else
+                    Student.lastid++;
+                stud = new Student();
+                stud.Load();
+                Show();
+                TextBoxLastname.Select();
+            }
         }
         private void ButtonPrev_Click(object sender, EventArgs e)
         {
-            stud = new Student(TextBoxLastname.Text, TextBoxName.Text, TextBoxMidname.Text, domainUpDown.Text, comboBoxFac.Text, numericUpDown.Text, dataGridView1);
-            buttonNext.Enabled = true;
-            buttonPrev.Enabled = --Student.lastid == 1 ? false : true;
-            stud.Save();
-            stud = new Student();
-            stud.Load();
-            Show();
-            TextBoxLastname.Select();
+            
+                stud = new Student(TextBoxLastname.Text, TextBoxName.Text, TextBoxMidname.Text, domainUpDown.Text, comboBoxFac.Text, numericUpDown.Text, dataGridView1);
+                buttonNext.Enabled = true;
+                buttonPrev.Enabled = --Student.lastid == 1 ? false : true;
+                stud.Save();
+                stud = new Student();
+                stud.Load();
+                Show();
+                TextBoxLastname.Select();
         }
 
         private void openFileDialog_FileOk(object sender, CancelEventArgs e)
@@ -127,7 +133,7 @@ namespace WFCat
         private void НайтиToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Process.Start("search-ms://query=содержимое: &crumb=location:" +
-            Directory.GetCurrentDirectory() + "\\students&inputlocale=1049&keywordlocale=1049");
+            Directory.GetCurrentDirectory() + "\\students&inputlocale=25&keywordlocale=25");
         }
     }
 
@@ -259,9 +265,9 @@ namespace WFCat
                     case 6: group = int.Parse(value); break;
                     default:
                         if (i < 27)
-                            subjects[i - 7] = value == default ? " " : value;
+                            subjects[i - 7] = /*value == default ? " " :*/ value;
                         else
-                            marks[i - 27] = value == default ? 0 : int.Parse(value);
+                            marks[i - 27] = /*value == default ? 0 :*/ int.Parse(value);
                         break;
                 }
             }

@@ -136,7 +136,7 @@
             // notifyIconSaved
             // 
             this.notifyIconSaved.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-            this.notifyIconSaved.BalloonTipText = "Сохранено";
+            this.notifyIconSaved.BalloonTipText = "Ошибка";
             this.notifyIconSaved.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIconSaved.Icon")));
             this.notifyIconSaved.Text = "WFCat";
             this.notifyIconSaved.Visible = true;
